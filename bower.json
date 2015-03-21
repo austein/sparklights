@@ -6,6 +6,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "jquery": "2.1.x"
+    "jquery": "2.1.x",
+    "bootstrap": "3.3.x"
   }
 }

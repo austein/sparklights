@@ -1,0 +1,4 @@
+var config = {
+    device_id: '',
+    access_token: ''
+};
