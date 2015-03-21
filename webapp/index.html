@@ -7,6 +7,7 @@
     <title>Sparklights</title>
 
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bower_components/spectrum/spectrum.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -34,6 +35,7 @@
         </div></div>
         <div class="col-md-4"><div class="well">
           <h4>Color Picker</h4>
+          <input id='colorpicker' />
         </div></div>
       </div>
 
@@ -46,10 +48,22 @@
 
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/spectrum/spectrum.js"></script>
     <script type="text/javascript">
 
     var base_url = '';
     var access_token = '';
+
+    setColor = function(r, g, b) {
+      data = '20,1,1,1|'+r+','+g+','+b;
+      $.post(base_url, {'access_token': window.access_token, 'args': data}, function(responseText, status) {
+          if (status === 'success') {
+             $('#notification-bar').text('Request sent');
+          } else {
+             $('#notification-bar').text('An error occurred');
+          }
+       });
+    };
 
     $(document).ready(function() {
       $.getScript('access_token.js', function(data, textStatus, r) {
@@ -59,50 +73,34 @@
 
       $('#btn-blackout').click(function(event) {
         event.preventDefault();
-        
-         $.post(base_url, {'access_token': window.access_token, 'args': '20,1,0,1|0,0,0'}, function(responseText, status) {
-            if (status === 'success') {
-               $('#notification-bar').text('Request sent');
-            } else {
-               $('#notification-bar').text('An error occurred');
-            }
-         });
+        setColor(0, 0, 0);
       });
 
       $('#btn-white').click(function(event) {
         event.preventDefault();
-        
-         $.post(base_url, {'access_token': window.access_token, 'args': '20,1,0,1|255,255,255'}, function(responseText, status) {
-            if (status === 'success') {
-               $('#notification-bar').text('Request sent');
-            } else {
-               $('#notification-bar').text('An error occurred');
-            }
-         });
+        setColor(99, 99, 99);
       });
 
       $('#btn-strobe').mousedown(function(event) {
         event.preventDefault();
-        
-         $.post(base_url, {'access_token': window.access_token, 'args': '20,1,0,1|255,255,255'}, function(responseText, status) {
-            if (status === 'success') {
-               $('#notification-bar').text('Request sent');
-            } else {
-               $('#notification-bar').text('An error occurred');
-            }
-         });
+        setColor(99, 99, 99);
       });
 
       $('#btn-strobe').mouseup(function(event) {
         event.preventDefault();
-        
-         $.post(base_url, {'access_token': window.access_token, 'args': '20,1,0,1|0,0,0'}, function(responseText, status) {
-            if (status === 'success') {
-               $('#notification-bar').text('Request sent');
-            } else {
-               $('#notification-bar').text('An error occurred');
-            }
-         });
+        setColor(0, 0, 0);
+      });
+
+      $("#colorpicker").spectrum({
+          color: "#f00",
+          flat: true,
+          change: function(color) {
+            r = Math.floor(color._r * 255.0 / 99.0);
+            g = Math.floor(color._g * 255.0 / 99.0);
+            b = Math.floor(color._b * 255.0 / 99.0);
+
+            setColor(r, g, b);
+          }
       });
 
     });
