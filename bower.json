@@ -1,0 +1,11 @@
+{
+  "name": "sparklights",
+  "version": "0.0.0",
+  "description": "Sparklights",
+  "homepage": "https://github.com/austein/sparklights",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "jquery": "2.1.x"
+  }
+}
