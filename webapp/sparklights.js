@@ -12,6 +12,30 @@ var base_url = '';
        });
     };
 
+    setBlues = function(speed) {
+        if(!speed) speed = 10
+      data = '20,1,' + speed + ',2|0,0,50,20,0,20';
+      $.post(base_url, {'access_token': window.access_token, 'args': data}, function(responseText, status) {
+          if (status === 'success') {
+             $('#notification-bar').text('Request sent');
+          } else {
+             $('#notification-bar').text('An error occurred');
+          }
+       });
+    };
+
+    setColorful = function(speed) {
+        if(!speed) speed = 10
+      data = '20,1,' + speed + ',6|0,0,50,20,0,20,50,0,0,30,20,0,0,40,0,0,20,20';
+      $.post(base_url, {'access_token': window.access_token, 'args': data}, function(responseText, status) {
+          if (status === 'success') {
+             $('#notification-bar').text('Request sent');
+          } else {
+             $('#notification-bar').text('An error occurred');
+          }
+       });
+    };
+
     $(document).ready(function() {
       $.getScript('access_token.js', function(data, textStatus, r) {
         base_url = 'https://api.spark.io/v1/devices/'+config.device_id+'/c';
@@ -28,6 +52,16 @@ var base_url = '';
         setColor(99, 99, 99);
       });
 
+      $('#btn-blues').click(function(event) {
+        event.preventDefault();
+        setBlues(10);
+      });
+
+      $('#btn-colorful').click(function(event) {
+        event.preventDefault();
+        setColorful(10);
+      });
+
       $('#btn-strobe').mousedown(function(event) {
         event.preventDefault();
         setColor(99, 99, 99);
@@ -42,9 +76,9 @@ var base_url = '';
           color: "#f00",
           flat: true,
           change: function(color) {
-            r = Math.floor(color._r * 255.0 / 99.0);
-            g = Math.floor(color._g * 255.0 / 99.0);
-            b = Math.floor(color._b * 255.0 / 99.0);
+            r = Math.floor(color._r * 100.0 / 255.0);
+            g = Math.floor(color._g * 100.0 / 255.0);
+            b = Math.floor(color._b * 100.0 / 255.0);
 
             setColor(r, g, b);
           }
