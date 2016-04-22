@@ -47,6 +47,17 @@ var base_url = '';
        });
     };
 
+    setNight = function() {
+      data = '1,0,300,5|90,0,0,60,40,0,0,70,0,0,40,20,60,0,20';
+      $.post(base_url + '/c', {'access_token': window.access_token, 'args': data}, function(responseText, status) {
+          if (status === 'success') {
+             $('#notification-bar').text('Request sent');
+          } else {
+             $('#notification-bar').text('An error occurred');
+          }
+       });
+    };
+
     $(document).ready(function() {
       $.getScript('access_token.js', function(data, textStatus, r) {
         base_url = 'https://api.spark.io/v1/devices/'+config.device_id;
@@ -71,6 +82,11 @@ var base_url = '';
       $('#btn-colorful').click(function(event) {
         event.preventDefault();
         setColorful(10);
+      });
+   
+      $('#btn-night').click(function(event) {
+        event.preventDefault();
+        setNight();
       });
 
       $('#btn-strobe').mousedown(function(event) {
